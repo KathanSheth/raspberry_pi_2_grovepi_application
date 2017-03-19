@@ -30,16 +30,23 @@ ENV INITSYSTEM=on
 WORKDIR /usr/src/app
 
 #RUN git clone https://github.com/jvedang/IoTRaspberryHumidity.git
-RUN git clone https://github.com/KathanSheth/IoTRaspberryHumidity.git
-WORKDIR /usr/src/app/IoTRaspberryHumidity
+#RUN git clone https://github.com/KathanSheth/IoTRaspberryHumidity.git
+#WORKDIR /usr/src/app/IoTRaspberryHumidity
 
 # Copies the package.json first for better cache on later pushes
 #COPY package.json package.json
 
-RUN git clone https://github.com/adafruit/Adafruit_Python_DHT.git
+#RUN git clone https://github.com/adafruit/Adafruit_Python_DHT.git
+RUN git clone https://github.com/DexterInd/GrovePi
 
-WORKDIR /usr/src/app/IoTRaspberryHumidity/Adafruit_Python_DHT
-RUN sudo python setup.py install --force-pi2
+#WORKDIR /usr/src/app/IoTRaspberryHumidity/Adafruit_Python_DHT
+WORKDIR /usr/src/app/GrovePi/Script
+
+RUN chmod +x install.sh
+
+RUN ./install.sh -y
+
+#RUN sudo python setup.py install --force-pi2
 #CMD ["python", "setup.py install"]
 
 #WORKDIR /usr/src/app
@@ -53,4 +60,4 @@ RUN sudo python setup.py install --force-pi2
 COPY . ./
 
 # server.py will run when container starts up on the device
-CMD ["python", "/usr/src/app/IoTRaspberryHumidity/server.py"]
+CMD ["python", "/usr/src/app/GrovePi/Software/Python/grove_led_blink.py"]
